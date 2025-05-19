@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const outputCanvas = document.getElementById('outputCanvas');
     const downloadLink = document.getElementById('downloadLink');
     const processedImageHeader = document.getElementById('processedImageHeader');
+    const resultArea = document.getElementById('resultArea'); // للتحكم في منطقة النتائج
     const ctx = outputCanvas.getContext('2d');
 
     // عناصر خيارات الخلفية
@@ -47,10 +48,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentImage.onload = () => {
                     console.log('تم تحميل الصورة:', currentImage.width, 'x', currentImage.height);
                     // الصورة جاهزة للمعالجة
-                    // إخفاء اللوحة ورابط التنزيل عند تحميل صورة جديدة
-                    outputCanvas.style.display = 'none';
-                    processedImageHeader.style.display = 'none';
-                    downloadLink.style.display = 'none';
+                    // إخفاء منطقة النتائج عند تحميل صورة جديدة
+                    resultArea.style.display = 'none';
                     // مسح اللوحة السابقة إذا كانت موجودة
                     ctx.clearRect(0, 0, outputCanvas.width, outputCanvas.height);
                 };
@@ -66,9 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             imagePreview.style.display = 'none';
             imagePreview.src = '#';
             currentImage = null;
-            outputCanvas.style.display = 'none';
-            processedImageHeader.style.display = 'none';
-            downloadLink.style.display = 'none';
+            resultArea.style.display = 'none';
         }
     });
 
@@ -165,10 +162,11 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.drawImage(img, drawX, drawY, img.width, img.height);
 
 
-        outputCanvas.style.display = 'block';
-        processedImageHeader.style.display = 'block';
+        resultArea.style.display = 'block'; // إظهار منطقة النتائج
+        outputCanvas.style.display = 'block'; // تأكد أن اللوحة ظاهرة داخل المنطقة
+        // processedImageHeader سيظهر تلقائياً عند إظهار resultArea
         downloadLink.href = outputCanvas.toDataURL('image/png');
         downloadLink.download = `instagram_${selectedRatioValue}_${Date.now()}.png`;
-        downloadLink.style.display = 'inline-block';
+        downloadLink.style.display = 'block'; // بما أن الزر w-100، block مناسب
     });
 });

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محرر صور إنستغرام</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>تعديل الصور لإنستغرام (بورتريه 4:5)</h1>
+
+    <label for="imageUpload">اختر صورة:</label>
+    <input type="file" id="imageUpload" accept="image/*" style="margin-bottom: 10px;">
+
+    <img id="imagePreview" src="#" alt="معاينة الصورة" style="display:none; max-width: 300px; max-height: 300px; margin-top:10px; margin-bottom:10px; border: 1px solid #ddd;">
+
+    <button id="processButton">معالجة الصورة</button>
+
+    <h2 id="processedImageHeader" style="display:none;">الصورة المعالجة:</h2>
+    <canvas id="outputCanvas" style="margin-top:10px; margin-bottom:10px; border: 1px solid #ccc;"></canvas>
+
+    <a id="downloadLink" href="#" download="instagram_portrait.png" style="display:none;">تنزيل الصورة المعالجة</a>
+
+    <script src="script.js"></script>
+</body>
+</html>

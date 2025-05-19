@@ -7,9 +7,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const processedImageHeader = document.getElementById('processedImageHeader');
     const ctx = outputCanvas.getContext('2d');
 
+    // عناصر خيارات الخلفية
+    const bgWhiteRadio = document.getElementById('bgWhite');
+    const bgCustomColorRadio = document.getElementById('bgCustomColor');
+    const bgBlurredImageRadio = document.getElementById('bgBlurredImage');
+    const customColorPicker = document.getElementById('customColorPicker');
+
     let currentImage = null;
     const PORTRAIT_RATIO = 4 / 5; // العرض / الارتفاع
     const LANDSCAPE_RATIO = 1.91 / 1; // العرض / الارتفاع
+    const BLUR_AMOUNT = '10px';
+
+    // مستمعو الأحداث لإظهار/إخفاء منتقي الألوان
+    bgWhiteRadio.addEventListener('change', () => {
+        if (bgWhiteRadio.checked) {
+            customColorPicker.style.display = 'none';
+        }
+    });
+    bgCustomColorRadio.addEventListener('change', () => {
+        if (bgCustomColorRadio.checked) {
+            customColorPicker.style.display = 'inline-block';
+        }
+    });
+    bgBlurredImageRadio.addEventListener('change', () => {
+        if (bgBlurredImageRadio.checked) {
+            customColorPicker.style.display = 'none';
+        }
+    });
 
     imageUpload.addEventListener('change', (event) => {
         const file = event.target.files[0];
@@ -104,12 +128,42 @@ document.addEventListener('DOMContentLoaded', () => {
         outputCanvas.width = canvasWidth;
         outputCanvas.height = canvasHeight;
 
-        // ملء الخلفية باللون الأبيض
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        // تطبيق الخلفية المختارة
+        const selectedBackgroundOption = document.querySelector('input[name="backgroundType"]:checked').value;
 
-        // رسم الصورة
+        if (selectedBackgroundOption === 'white') {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        } else if (selectedBackgroundOption === 'customColor') {
+            ctx.fillStyle = customColorPicker.value;
+            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+        } else if (selectedBackgroundOption === 'blurredImage') {
+            // رسم صورة الخلفية المكبرة والمموهة
+            const bgImg = currentImage;
+            const canvasAspectRatio = canvasWidth / canvasHeight;
+            const bgImageAspectRatio = bgImg.width / bgImg.height;
+            let bgDrawWidth, bgDrawHeight, bgDrawX, bgDrawY;
+
+            if (bgImageAspectRatio > canvasAspectRatio) { // الصورة أعرض من نسبة أبعاد اللوحة
+                bgDrawHeight = canvasHeight;
+                bgDrawWidth = bgImg.width * (canvasHeight / bgImg.height);
+                bgDrawX = (canvasWidth - bgDrawWidth) / 2;
+                bgDrawY = 0;
+            } else { // الصورة أطول أو بنفس نسبة أبعاد اللوحة
+                bgDrawWidth = canvasWidth;
+                bgDrawHeight = bgImg.height * (canvasWidth / bgImg.width);
+                bgDrawX = 0;
+                bgDrawY = (canvasHeight - bgDrawHeight) / 2;
+            }
+
+            ctx.filter = `blur(${BLUR_AMOUNT})`;
+            ctx.drawImage(bgImg, bgDrawX, bgDrawY, bgDrawWidth, bgDrawHeight);
+            ctx.filter = 'none'; // إعادة تعيين الفلتر قبل رسم الصورة الرئيسية
+        }
+
+        // رسم الصورة الرئيسية (الأصلية الممركزة)
         ctx.drawImage(img, drawX, drawY, img.width, img.height);
+
 
         outputCanvas.style.display = 'block';
         processedImageHeader.style.display = 'block';

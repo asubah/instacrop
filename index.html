@@ -20,6 +20,17 @@
         <label for="ratioLandscape">لاندسكيب (1.91:1)</label>
     </div>
 
+    <div id="backgroundOptions" style="margin-bottom: 10px; margin-top: 10px;">
+        <label>اختر نوع الخلفية:</label><br>
+        <input type="radio" id="bgWhite" name="backgroundType" value="white" checked>
+        <label for="bgWhite">أبيض</label><br>
+        <input type="radio" id="bgCustomColor" name="backgroundType" value="customColor">
+        <label for="bgCustomColor">لون مخصص:</label>
+        <input type="color" id="customColorPicker" value="#ffffff" style="vertical-align: middle; margin-inline-start: 5px; display: none;"><br>
+        <input type="radio" id="bgBlurredImage" name="backgroundType" value="blurredImage">
+        <label for="bgBlurredImage">صورة مموهة (من نفس الصورة)</label>
+    </div>
+
     <img id="imagePreview" src="#" alt="معاينة الصورة" style="display:none; max-width: 300px; max-height: 300px; margin-top:10px; margin-bottom:10px; border: 1px solid #ddd;">
 
     <button id="processButton">معالجة الصورة</button>

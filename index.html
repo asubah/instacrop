@@ -7,10 +7,18 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>تعديل الصور لإنستغرام (بورتريه 4:5)</h1>
+    <h1>تعديل الصور لإنستغرام</h1>
 
     <label for="imageUpload">اختر صورة:</label>
     <input type="file" id="imageUpload" accept="image/*" style="margin-bottom: 10px;">
+
+    <div id="ratioSelection" style="margin-bottom: 10px; margin-top: 10px;">
+        <label>اختر نسبة الأبعاد:</label><br>
+        <input type="radio" id="ratioPortrait" name="aspectRatio" value="portrait" checked>
+        <label for="ratioPortrait">بورتريه (4:5)</label><br>
+        <input type="radio" id="ratioLandscape" name="aspectRatio" value="landscape">
+        <label for="ratioLandscape">لاندسكيب (1.91:1)</label>
+    </div>
 
     <img id="imagePreview" src="#" alt="معاينة الصورة" style="display:none; max-width: 300px; max-height: 300px; margin-top:10px; margin-bottom:10px; border: 1px solid #ddd;">
 
@@ -19,7 +27,7 @@
     <h2 id="processedImageHeader" style="display:none;">الصورة المعالجة:</h2>
     <canvas id="outputCanvas" style="margin-top:10px; margin-bottom:10px; border: 1px solid #ccc;"></canvas>
 
-    <a id="downloadLink" href="#" download="instagram_portrait.png" style="display:none;">تنزيل الصورة المعالجة</a>
+    <a id="downloadLink" href="#" download="instagram_processed.png" style="display:none;">تنزيل الصورة المعالجة</a>
 
     <script src="script.js"></script>
 </body>

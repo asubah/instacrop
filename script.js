@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = outputCanvas.getContext('2d');
 
     let currentImage = null;
-    const INSTAGRAM_PORTRAIT_RATIO = 4 / 5; // العرض / الارتفاع
+    const PORTRAIT_RATIO = 4 / 5; // العرض / الارتفاع
+    const LANDSCAPE_RATIO = 1.91 / 1; // العرض / الارتفاع
 
     imageUpload.addEventListener('change', (event) => {
         const file = event.target.files[0];
@@ -53,28 +54,47 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const selectedRatioOption = document.querySelector('input[name="aspectRatio"]:checked');
+        if (!selectedRatioOption) {
+            alert('الرجاء اختيار نسبة الأبعاد.');
+            return;
+        }
+        const selectedRatioValue = selectedRatioOption.value;
+        let targetRatio;
+
+        if (selectedRatioValue === 'portrait') {
+            targetRatio = PORTRAIT_RATIO;
+        } else if (selectedRatioValue === 'landscape') {
+            targetRatio = LANDSCAPE_RATIO;
+        } else {
+            alert('نسبة أبعاد غير صالحة مختارة.');
+            return;
+        }
+
         const img = currentImage;
         let canvasWidth, canvasHeight;
         let drawX, drawY;
 
         const imageAspectRatio = img.width / img.height;
 
-        if (imageAspectRatio > INSTAGRAM_PORTRAIT_RATIO) {
-            // الصورة أعرض من نسبة 4:5 (مثلاً، صورة أفقية 16:9)
-            // عرض اللوحة سيكون عرض الصورة، وارتفاع اللوحة سيُضبط ليناسب نسبة 4:5
+        if (imageAspectRatio > targetRatio) {
+            // الصورة أعرض من النسبة المطلوبة (مثلاً، صورة أفقية ونريد بورتريه)
+            // أو صورة أقل عرضاً من لاندسكيب (مثلاً بورتريه ونريد لاندسكيب أوسع)
+            // نجعل عرض اللوحة هو عرض الصورة، ونضبط ارتفاع اللوحة ليناسب النسبة المطلوبة
             canvasWidth = img.width;
-            canvasHeight = img.width / INSTAGRAM_PORTRAIT_RATIO; // canvasHeight = img.width * (5/4)
+            canvasHeight = img.width / targetRatio;
             drawX = 0;
-            drawY = (canvasHeight - img.height) / 2;
-        } else if (imageAspectRatio < INSTAGRAM_PORTRAIT_RATIO) {
-            // الصورة أطول من نسبة 4:5 (مثلاً، صورة عمودية 9:16)
-            // ارتفاع اللوحة سيكون ارتفاع الصورة، وعرض اللوحة سيُضبط ليناسب نسبة 4:5
+            drawY = (canvasHeight - img.height) / 2; // توسيط الصورة عمودياً
+        } else if (imageAspectRatio < targetRatio) {
+            // الصورة أطول من النسبة المطلوبة (مثلاً، صورة عمودية ونريد لاندسكيب)
+            // أو صورة أقل طولاً من بورتريه (مثلاً لاندسكيب ونريد بورتريه أطول)
+            // نجعل ارتفاع اللوحة هو ارتفاع الصورة، ونضبط عرض اللوحة ليناسب النسبة المطلوبة
             canvasHeight = img.height;
-            canvasWidth = img.height * INSTAGRAM_PORTRAIT_RATIO; // canvasWidth = img.height * (4/5)
-            drawX = (canvasWidth - img.width) / 2;
+            canvasWidth = img.height * targetRatio;
+            drawX = (canvasWidth - img.width) / 2; // توسيط الصورة أفقياً
             drawY = 0;
         } else {
-            // الصورة بالفعل بنسبة 4:5
+            // الصورة بالفعل بالسبة المطلوبة
             canvasWidth = img.width;
             canvasHeight = img.height;
             drawX = 0;
@@ -93,8 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         outputCanvas.style.display = 'block';
         processedImageHeader.style.display = 'block';
-        downloadLink.href = outputCanvas.toDataURL('image/png'); // أو 'image/jpeg' للحجم الأصغر
-        downloadLink.download = `instagram_portrait_${Date.now()}.png`;
-        downloadLink.style.display = 'inline-block'; // إظهار رابط التنزيل
+        downloadLink.href = outputCanvas.toDataURL('image/png');
+        downloadLink.download = `instagram_${selectedRatioValue}_${Date.now()}.png`;
+        downloadLink.style.display = 'inline-block';
     });
 });

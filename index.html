@@ -33,18 +33,19 @@
 
                 <div id="backgroundOptions" class="mb-3 p-3 border rounded">
                     <label class="form-label d-block mb-2">اختر نوع الخلفية:</label>
+                    <!-- تم إزالة خيار "أبيض" المنفصل. اللون المخصص سيكون الافتراضي -->
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" id="bgWhite" name="backgroundType" value="white" checked>
-                        <label class="form-check-label" for="bgWhite">أبيض</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="bgCustomColor" name="backgroundType" value="customColor">
+                        <input class="form-check-input" type="radio" id="bgCustomColor" name="backgroundType" value="customColor" checked>
                         <label class="form-check-label" for="bgCustomColor">لون مخصص:</label>
-                        <input type="color" class="form-control form-control-color d-inline-block ms-2" id="customColorPicker" value="#ffffff" title="اختر لونك" style="display: none; width: 60px; vertical-align: middle;">
+                        <input type="color" class="form-control form-control-color d-inline-block ms-2" id="customColorPicker" value="#ffffff" title="اختر لونك" style="width: 60px; vertical-align: middle;">
                     </div>
                     <div class="form-check mt-1">
                         <input class="form-check-input" type="radio" id="bgBlurredImage" name="backgroundType" value="blurredImage">
                         <label class="form-check-label" for="bgBlurredImage">صورة مموهة (من نفس الصورة)</label>
+                    </div>
+                    <div id="blurSliderContainer" class="mt-2" style="display: none;">
+                        <label for="blurAmountSlider" class="form-label">مقدار التمويه: <span id="blurAmountValue">10px</span></label>
+                        <input type="range" class="form-range" id="blurAmountSlider" min="0" max="30" value="10">
                     </div>
                 </div>
 

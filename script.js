@@ -9,31 +9,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = outputCanvas.getContext('2d');
 
     // عناصر خيارات الخلفية
-    const bgWhiteRadio = document.getElementById('bgWhite');
+    // const bgWhiteRadio = document.getElementById('bgWhite'); // تم إزالته
     const bgCustomColorRadio = document.getElementById('bgCustomColor');
     const bgBlurredImageRadio = document.getElementById('bgBlurredImage');
     const customColorPicker = document.getElementById('customColorPicker');
+    const blurSliderContainer = document.getElementById('blurSliderContainer');
+    const blurAmountSlider = document.getElementById('blurAmountSlider');
+    const blurAmountValueDisplay = document.getElementById('blurAmountValue'); // تم تغيير الاسم ليتطابق مع الـ id
 
     let currentImage = null;
     const PORTRAIT_RATIO = 4 / 5; // العرض / الارتفاع
     const LANDSCAPE_RATIO = 1.91 / 1; // العرض / الارتفاع
-    const BLUR_AMOUNT = '10px';
+    // const BLUR_AMOUNT = '10px'; // سيتم التحكم به الآن بواسطة المنزلق
 
-    // مستمعو الأحداث لإظهار/إخفاء منتقي الألوان
-    bgWhiteRadio.addEventListener('change', () => {
-        if (bgWhiteRadio.checked) {
-            customColorPicker.style.display = 'none';
-        }
-    });
+    // مستمعو الأحداث لإظهار/إخفاء منتقي الألوان ومقدار التمويه
+    // ضبط الحالة الأولية بناءً على الاختيار الافتراضي (لون مخصص)
+    if (bgCustomColorRadio.checked) {
+        customColorPicker.style.display = 'inline-block';
+        blurSliderContainer.style.display = 'none';
+    } else if (bgBlurredImageRadio.checked) { // في حال تم تغيير الافتراضي يدوياً في HTML
+        customColorPicker.style.display = 'none';
+        blurSliderContainer.style.display = 'block';
+    }
+
     bgCustomColorRadio.addEventListener('change', () => {
         if (bgCustomColorRadio.checked) {
             customColorPicker.style.display = 'inline-block';
+            blurSliderContainer.style.display = 'none';
         }
     });
     bgBlurredImageRadio.addEventListener('change', () => {
         if (bgBlurredImageRadio.checked) {
             customColorPicker.style.display = 'none';
+            blurSliderContainer.style.display = 'block';
         }
+    });
+
+    blurAmountSlider.addEventListener('input', () => {
+        blurAmountValueDisplay.textContent = `${blurAmountSlider.value}px`;
     });
 
     imageUpload.addEventListener('change', (event) => {
@@ -128,10 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // تطبيق الخلفية المختارة
         const selectedBackgroundOption = document.querySelector('input[name="backgroundType"]:checked').value;
 
-        if (selectedBackgroundOption === 'white') {
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, canvasWidth, canvasHeight);
-        } else if (selectedBackgroundOption === 'customColor') {
+        if (selectedBackgroundOption === 'customColor') {
             ctx.fillStyle = customColorPicker.value;
             ctx.fillRect(0, 0, canvasWidth, canvasHeight);
         } else if (selectedBackgroundOption === 'blurredImage') {
@@ -152,8 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 bgDrawX = 0;
                 bgDrawY = (canvasHeight - bgDrawHeight) / 2;
             }
-
-            ctx.filter = `blur(${BLUR_AMOUNT})`;
+            
+            const currentBlurAmount = blurAmountSlider.value;
+            ctx.filter = `blur(${currentBlurAmount}px)`;
             ctx.drawImage(bgImg, bgDrawX, bgDrawY, bgDrawWidth, bgDrawHeight);
             ctx.filter = 'none'; // إعادة تعيين الفلتر قبل رسم الصورة الرئيسية
         }

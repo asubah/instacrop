@@ -11,3 +11,38 @@ body {
 .form-check-label {
   padding-inline-start: 0.5em;
 }
+
+/* --- بداية إصلاح حواف أزرار الاختيار لمجموعات Bootstrap في وضع RTL --- */
+
+/* القاعدة الأساسية: الزر الأيمن (الأول بصريًا في RTL) */
+/* يستهدف label.btn الذي يتبع input.btn-check الذي هو أول عنصر في المجموعة */
+[dir="rtl"] .btn-group > input.btn-check:first-child + label.btn {
+  border-top-right-radius: var(--bs-border-radius) !important;
+  border-bottom-right-radius: var(--bs-border-radius) !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+/* القاعدة الأساسية: الزر الأيسر (الأخير بصريًا في RTL) */
+/* يستهدف label.btn الذي هو آخر عنصر في المجموعة */
+[dir="rtl"] .btn-group > label.btn:last-child {
+  border-top-left-radius: var(--bs-border-radius) !important;
+  border-bottom-left-radius: var(--bs-border-radius) !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+/* الأزرار الوسطى (إذا كانت موجودة) */
+/* يستهدف label.btn الذي يتبع input.btn-check (وليس الأول)، والذي هو ليس آخر label.btn */
+[dir="rtl"] .btn-group > input.btn-check:not(:first-child) + label.btn:not(:last-child) {
+  border-radius: 0 !important; /* كل الحواف مسطحة */
+}
+
+/* حالة خاصة: زر واحد فقط في المجموعة */
+/* يستهدف label.btn الذي يتبع input.btn-check (الأول) وهو أيضًا آخر label.btn */
+/* هذه القاعدة أكثر تحديدًا وستقوم بتجاوز القاعدتين الأوليين عند وجود زر واحد فقط */
+[dir="rtl"] .btn-group > input.btn-check:first-child + label.btn:last-child {
+  border-radius: var(--bs-border-radius) !important; /* كل الحواف مستديرة */
+}
+
+/* --- نهاية إصلاح حواف أزرار الاختيار --- */

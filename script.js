@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const downloadLink = document.getElementById('downloadLink');
     const processedImageHeader = document.getElementById('processedImageHeader');
     const resultArea = document.getElementById('resultArea'); // للتحكم في منطقة النتائج
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
     const ctx = outputCanvas.getContext('2d');
 
     // عناصر خيارات الخلفية
@@ -54,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
+                imagePreviewContainer.style.display = 'block';
                 imagePreview.src = e.target.result;
                 imagePreview.style.display = 'block';
 
@@ -75,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             reader.readAsDataURL(file);
         } else {
+            imagePreviewContainer.style.display = 'none';
             imagePreview.style.display = 'none';
             imagePreview.src = '#';
             currentImage = null;

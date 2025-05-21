@@ -12,54 +12,92 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
-                <h1 class="mb-4 text-center">محرر صور إنستغرام</h1>
-
-                <div class="mb-3">
-                    <label for="imageUpload" class="form-label">اختر صورة:</label>
-                    <input type="file" class="form-control" id="imageUpload" accept="image/*">
-                </div>
-
-                <div id="ratioSelection" class="mb-3 p-3 border rounded">
-                    <label class="form-label d-block mb-2">اختر نسبة الأبعاد:</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="ratioPortrait" name="aspectRatio" value="portrait" checked>
-                        <label class="form-check-label" for="ratioPortrait">طولي (4:5)</label>
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h1 class="mb-0 h4">محرر صور إنستغرام</h1>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="ratioLandscape" name="aspectRatio" value="landscape">
-                        <label class="form-check-label" for="ratioLandscape">عرضي (1.91:1)</label>
-                    </div>
-                </div>
+                    <div class="card-body">
+                        <!-- (قسم رفع الصورة) -->
+                        <div class="mb-3">
+                            <label for="imageUpload" class="form-label fw-bold">١. اختر صورة:</label>
+                            <input type="file" class="form-control" id="imageUpload" accept="image/*">
+                        </div>
 
-                <div id="backgroundOptions" class="mb-3 p-3 border rounded">
-                    <label class="form-label d-block mb-2">اختر نوع الخلفية:</label>
-                    <!-- تم إزالة خيار "أبيض" المنفصل. اللون المخصص سيكون الافتراضي -->
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" id="bgCustomColor" name="backgroundType" value="customColor" checked>
-                        <label class="form-check-label" for="bgCustomColor">لون مخصص:</label>
-                        <input type="color" class="form-control form-control-color d-inline-block ms-2" id="customColorPicker" value="#ffffff" title="اختر لونك" style="width: 60px; vertical-align: middle;">
-                    </div>
-                    <div class="form-check mt-1">
-                        <input class="form-check-input" type="radio" id="bgBlurredImage" name="backgroundType" value="blurredImage">
-                        <label class="form-check-label" for="bgBlurredImage">صورة مموهة (من نفس الصورة)</label>
-                    </div>
-                    <div id="blurSliderContainer" class="mt-2" style="display: none;">
-                        <label for="blurAmountSlider" class="form-label">مقدار التمويه: <span id="blurAmountValue">10px</span></label>
-                        <input type="range" class="form-range" id="blurAmountSlider" min="0" max="30" value="10">
-                    </div>
-                </div>
+                        <!-- (قسم معاينة الصورة - تم نقله وتعديله) -->
+                        <div class="text-center mb-3" id="imagePreviewContainer" style="display:none;">
+                            <label class="form-label d-block fw-normal mb-1">معاينة الصورة المرفوعة:</label>
+                            <img id="imagePreview" src="#" alt="معاينة الصورة" class="img-fluid rounded border" style="max-height: 300px; display:none;">
+                        </div>
 
-                <div class="text-center mb-3">
-                    <img id="imagePreview" src="#" alt="معاينة الصورة" class="img-fluid rounded border" style="display:none; max-height: 300px;">
-                </div>
+                        <!-- (بطاقة لخيارات التخصيص) -->
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h2 class="h5 mb-0 fw-bold">٢. تخصيص إعدادات الصورة</h2>
+                            </div>
+                            <div class="card-body">
+                                <!-- (قسم اختيار نسبة الأبعاد - سيتم نقله هنا) -->
+                                <div id="ratioSelection" class="mb-3">
+                                    <label class="form-label d-block mb-2 fw-semibold">اختر نسبة الأبعاد:</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="ratioPortrait" name="aspectRatio" value="portrait" checked>
+                                        <label class="form-check-label" for="ratioPortrait">طولي (4:5)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="ratioLandscape" name="aspectRatio" value="landscape">
+                                        <label class="form-check-label" for="ratioLandscape">عرضي (1.91:1)</label>
+                                    </div>
+                                </div>
 
-                <button id="processButton" class="btn btn-primary w-100 mb-3">معالجة الصورة</button>
+                                <!-- (قسم خيارات الخلفية - سيتم نقله هنا) -->
+                                <div id="backgroundOptions" class="mb-3">
+                                    <label class="form-label d-block mb-2 fw-semibold">اختر نوع الخلفية:</label>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" id="bgCustomColor" name="backgroundType" value="customColor" checked>
+                                        <label class="form-check-label" for="bgCustomColor">لون مخصص:</label>
+                                        <input type="color" class="form-control form-control-color d-inline-block ms-2" id="customColorPicker" value="#ffffff" title="اختر لونك" style="width: auto; vertical-align: middle; padding: .1rem .2rem; height: calc(1.5em + .5rem + 2px);">
+                                    </div>
+                                    <div class="form-check mt-1">
+                                        <input class="form-check-input" type="radio" id="bgBlurredImage" name="backgroundType" value="blurredImage">
+                                        <label class="form-check-label" for="bgBlurredImage">صورة مموهة (من نفس الصورة)</label>
+                                    </div>
+                                    <div id="blurSliderContainer" class="mt-2" style="display: none;">
+                                        <label for="blurAmountSlider" class="form-label">مقدار التمويه: <span id="blurAmountValue">10px</span></label>
+                                        <input type="range" class="form-range" id="blurAmountSlider" min="0" max="30" value="10">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                <div id="resultArea" class="text-center" style="display:none;">
-                    <h2 id="processedImageHeader" class="mt-4 mb-3">الصورة المعالجة:</h2>
-                    <canvas id="outputCanvas" class="img-fluid rounded border mb-3"></canvas>
-                    <a id="downloadLink" href="#" download="instagram_processed.png" class="btn btn-success w-100">تنزيل الصورة المعالجة</a>
-                </div>
+                        <!-- (زر المعالجة - تم تعديله) -->
+                        <button id="processButton" class="btn btn-primary w-100 btn-lg mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-gear-fill me-2" viewBox="0 0 16 16" style="vertical-align: -0.125em;">
+                                <path d="M9.405 1.05c-.413-1.4-2.397-1.4-2.81 0l-.1.34a1.464 1.464 0 0 1-2.105.872l-.31-.17c-1.283-.698-2.686.705-1.987 1.987l.169.311c.446.82.023 1.841-.872 2.105l-.34.1c-1.4.413-1.4 2.397 0 2.81l.34.1a1.464 1.464 0 0 1 .872 2.105l-.17.31c-.698 1.283.705 2.686 1.987 1.987l.311-.169a1.464 1.464 0 0 1 2.105.872l.1.34c.413 1.4 2.397 1.4 2.81 0l.1-.34a1.464 1.464 0 0 1 2.105-.872l.31.17c1.283.698 2.686-.705-1.987 1.987l-.169-.311a1.464 1.464 0 0 1 .872-2.105l.34-.1c1.4-.413-1.4-2.397 0-2.81l-.34-.1a1.464 1.464 0 0 1-.872-2.105l.17-.31c.698-1.283-.705-2.686-1.987-1.987l-.311-.169a1.464 1.464 0 0 1-2.105-.872l-.1-.34zM8 10.93a2.929 2.929 0 1 1 0-5.858 2.929 2.929 0 0 1 0 5.858z"/>
+                            </svg>
+                            معالجة الصورة
+                        </button>
+
+                        <!-- (منطقة النتائج - تم تعديلها) -->
+                        <div id="resultArea" class="card mt-4" style="display:none;">
+                            <div class="card-header">
+                                <h2 id="processedImageHeader" class="mb-0 h5">الصورة المعالجة:</h2>
+                            </div>
+                            <div class="card-body text-center">
+                                <canvas id="outputCanvas" class="img-fluid rounded border mb-3"></canvas>
+                                <a id="downloadLink" href="#" download="instagram_processed.png" class="btn btn-success w-100 btn-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-download me-2" viewBox="0 0 16 16" style="vertical-align: -0.125em;">
+                                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                                    </svg>
+                                    تنزيل الصورة المعالجة
+                                </a>
+                            </div>
+                        </div>
+
+                    </div> <!-- نهاية card-body الرئيسية -->
+                    <div class="card-footer text-center text-muted small">
+                        أداة بسيطة لتجهيز الصور للنشر على إنستغرام.
+                    </div>
+                </div> <!-- نهاية card الرئيسية -->
             </div>
         </div>
     </div>

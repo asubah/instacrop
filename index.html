@@ -38,28 +38,32 @@
                                 <!-- (قسم اختيار نسبة الأبعاد - سيتم نقله هنا) -->
                                 <div id="ratioSelection" class="mb-3">
                                     <label class="form-label d-block mb-2 fw-semibold">اختر نسبة الأبعاد:</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="ratioPortrait" name="aspectRatio" value="portrait" checked>
-                                        <label class="form-check-label" for="ratioPortrait">طولي (4:5)</label>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="ratioLandscape" name="aspectRatio" value="landscape">
-                                        <label class="form-check-label" for="ratioLandscape">عرضي (1.91:1)</label>
+                                    <div class="btn-group w-100" role="group" aria-label="Basic radio toggle button group">
+                                        <input type="radio" class="btn-check" name="aspectRatio" id="ratioPortrait" value="portrait" autocomplete="off" checked>
+                                        <label class="btn btn-outline-primary" for="ratioPortrait">طولي (4:5)</label>
+
+                                        <input type="radio" class="btn-check" name="aspectRatio" id="ratioLandscape" value="landscape" autocomplete="off">
+                                        <label class="btn btn-outline-primary" for="ratioLandscape">عرضي (1.91:1)</label>
                                     </div>
                                 </div>
 
                                 <!-- (قسم خيارات الخلفية - سيتم نقله هنا) -->
                                 <div id="backgroundOptions" class="mb-3">
                                     <label class="form-label d-block mb-2 fw-semibold">اختر نوع الخلفية:</label>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="radio" id="bgCustomColor" name="backgroundType" value="customColor" checked>
-                                        <label class="form-check-label" for="bgCustomColor">لون مخصص:</label>
-                                        <input type="color" class="form-control form-control-color d-inline-block ms-2" id="customColorPicker" value="#ffffff" title="اختر لونك" style="width: auto; vertical-align: middle; padding: .1rem .2rem; height: calc(1.5em + .5rem + 2px);">
+                                    <div class="btn-group w-100 mb-2" role="group" aria-label="Background type toggle button group">
+                                        <input type="radio" class="btn-check" name="backgroundType" id="bgCustomColor" value="customColor" autocomplete="off" checked>
+                                        <label class="btn btn-outline-secondary" for="bgCustomColor">لون مخصص</label>
+
+                                        <input type="radio" class="btn-check" name="backgroundType" id="bgBlurredImage" value="blurredImage" autocomplete="off">
+                                        <label class="btn btn-outline-secondary" for="bgBlurredImage">صورة مموهة</label>
                                     </div>
-                                    <div class="form-check mt-1">
-                                        <input class="form-check-input" type="radio" id="bgBlurredImage" name="backgroundType" value="blurredImage">
-                                        <label class="form-check-label" for="bgBlurredImage">صورة مموهة (من نفس الصورة)</label>
+
+                                    <!-- عناصر التحكم المرتبطة بنوع الخلفية -->
+                                    <div id="customColorPickerContainer" class="mt-2"> <!-- حاوية لمنتقي الألوان -->
+                                        <input type="color" class="form-control form-control-color d-inline-block align-middle" id="customColorPicker" value="#ffffff" title="اختر لونك" style="width: auto; padding: .1rem .2rem; height: calc(1.5em + .5rem + 2px);">
+                                        <label for="customColorPicker" class="form-label align-middle ms-2">اختر لون الخلفية</label>
                                     </div>
+
                                     <div id="blurSliderContainer" class="mt-2" style="display: none;">
                                         <label for="blurAmountSlider" class="form-label">مقدار التمويه: <span id="blurAmountValue">10px</span></label>
                                         <input type="range" class="form-range" id="blurAmountSlider" min="0" max="30" value="10">

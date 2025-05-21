@@ -10,38 +10,37 @@ document.addEventListener('DOMContentLoaded', () => {
     const ctx = outputCanvas.getContext('2d');
 
     // عناصر خيارات الخلفية
-    // const bgWhiteRadio = document.getElementById('bgWhite'); // تم إزالته
     const bgCustomColorRadio = document.getElementById('bgCustomColor');
     const bgBlurredImageRadio = document.getElementById('bgBlurredImage');
     const customColorPicker = document.getElementById('customColorPicker');
+    const customColorPickerContainer = document.getElementById('customColorPickerContainer'); // تم إضافته
     const blurSliderContainer = document.getElementById('blurSliderContainer');
     const blurAmountSlider = document.getElementById('blurAmountSlider');
-    const blurAmountValueDisplay = document.getElementById('blurAmountValue'); // تم تغيير الاسم ليتطابق مع الـ id
+    const blurAmountValueDisplay = document.getElementById('blurAmountValue');
 
     let currentImage = null;
     const PORTRAIT_RATIO = 4 / 5; // العرض / الارتفاع
     const LANDSCAPE_RATIO = 1.91 / 1; // العرض / الارتفاع
-    // const BLUR_AMOUNT = '10px'; // سيتم التحكم به الآن بواسطة المنزلق
 
     // مستمعو الأحداث لإظهار/إخفاء منتقي الألوان ومقدار التمويه
     // ضبط الحالة الأولية بناءً على الاختيار الافتراضي (لون مخصص)
     if (bgCustomColorRadio.checked) {
-        customColorPicker.style.display = 'inline-block';
+        customColorPickerContainer.style.display = 'block'; // أو 'flex' إذا أردت تحكم أدق بالعناصر الداخلية
         blurSliderContainer.style.display = 'none';
-    } else if (bgBlurredImageRadio.checked) { // في حال تم تغيير الافتراضي يدوياً في HTML
-        customColorPicker.style.display = 'none';
+    } else if (bgBlurredImageRadio.checked) {
+        customColorPickerContainer.style.display = 'none';
         blurSliderContainer.style.display = 'block';
     }
 
     bgCustomColorRadio.addEventListener('change', () => {
         if (bgCustomColorRadio.checked) {
-            customColorPicker.style.display = 'inline-block';
+            customColorPickerContainer.style.display = 'block';
             blurSliderContainer.style.display = 'none';
         }
     });
     bgBlurredImageRadio.addEventListener('change', () => {
         if (bgBlurredImageRadio.checked) {
-            customColorPicker.style.display = 'none';
+            customColorPickerContainer.style.display = 'none';
             blurSliderContainer.style.display = 'block';
         }
     });
